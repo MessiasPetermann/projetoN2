@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  title: API de Produtos
+  description: API RESTful para gerenciamento de produtos
+  version: 1.0.0
+
+paths:
+  /api/products:
+    get:
+      summary: Lista todos os produtos
+      responses:
+        '200':
+          description: Lista de produtos retornada com sucesso
+    post:
+      summary: Cria um novo produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Produto criado com sucesso
+
+  /api/products/{id}:
+    get:
+      summary: Retorna um produto específico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Produto encontrado
+        '404':
+          description: Produto não encontrado
+    
+    put:
+      summary: Atualiza um produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Produto atualizado com sucesso
+        '404':
+          description: Produto não encontrado
+    
+    delete:
+      summary: Remove um produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Produto removido com sucesso
+        '404':
+          description: Produto não encontrado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nome do produto
+        price:
+          type: number
+          description: Preço do produto
+        description:
+          type: string
+          description: Descrição do produto
+      required:
+        - name
+        - price
+        - description
